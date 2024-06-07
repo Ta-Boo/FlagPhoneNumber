@@ -34,6 +34,9 @@ let package = Package(
             name: "FlagPhoneNumber",
             dependencies: ["libPhoneNumber"],
             path: "Sources",
+            resources: [
+                .process("Resources/countryCodes.json")
+            ],
             exclude: ["Info.plist", "libPhoneNumber"],
             publicHeadersPath: "."
         ),
