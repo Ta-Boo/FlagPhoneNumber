@@ -19,20 +19,14 @@ open class FPNCountryRepository {
 	}
 
 	// Populates the metadata from the included json file resource
-	private func getAllCountries() -> [FPNCountry] {
-		let bundle: Bundle = Bundle.FlagPhoneNumber()
-		let resource: String = "countryCodes"
-		let jsonPath = bundle.path(forResource: resource, ofType: "json")
+    private func getAllCountries() -> [FPNCountry] {
+        let url = Bundle.module.url(forResource: "countryCodes", withExtension: "json")
+        assert(url != nil, "Resource file is not found in the Bundle")
+        
+        let jsonData = try? Data(contentsOf: url!)
+        var countries = [FPNCountry]()
 
-		assert(jsonPath != nil, "Resource file is not found in the Bundle")
-
-		let jsonData = try? Data(contentsOf: URL(fileURLWithPath: jsonPath!))
-
-		assert(jsonPath != nil, "Resource file is not found")
-
-		var countries = [FPNCountry]()
-
-		do {
+        do {
 			if let jsonObjects = try JSONSerialization.jsonObject(with: jsonData!, options: JSONSerialization.ReadingOptions.allowFragments) as? NSArray {
 
 				for jsonObject in jsonObjects {
